@@ -7,16 +7,27 @@ set clipboard+=unnamed
 set list
 set listchars=tab:»-,trail:.,eol:↲,extends:»,precedes:«,nbsp:%
 
+" --------- vim-plug ---------------
 call plug#begin('~/.vim/plugged')
 
 Plug 'neovim/nvim-lsp'
 Plug 'fatih/vim-go'
 Plug 'cocopon/iceberg.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
-
 colorscheme iceberg
 
-noremap <C-n> :vs .<CR>
-noremap <C-q> :q<CR>
-let g:netrw_banner=0
+" --------- vim-plug ---------------
+
+" keybind
+noremap <C-n> :NERDTreeFocus<CR>
+
+" autocmd
+au BufNewFile *.sh set fileformat=unix
+
+" user command
+command! Config edit ~\AppData\Local\nvim\init.vim
