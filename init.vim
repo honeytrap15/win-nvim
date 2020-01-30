@@ -31,3 +31,4 @@ au BufNewFile *.sh set fileformat=unix
 
 " user command
 command! Config edit ~\AppData\Local\nvim\init.vim
+command! GConfig edit ~\AppData\Local\nvim\ginit.vim
