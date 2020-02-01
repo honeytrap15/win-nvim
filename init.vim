@@ -3,6 +3,8 @@ set shiftwidth=4
 set tabstop=4
 set autoindent
 set clipboard+=unnamed
+set hlsearch
+set expandtab
 
 set list
 set listchars=tab:»-,trail:.,eol:↲,extends:»,precedes:«,nbsp:%
@@ -25,6 +27,7 @@ colorscheme iceberg
 
 " keybind
 noremap <C-n> :NERDTreeFocus<CR>
+nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
 " autocmd
 au BufNewFile *.sh set fileformat=unix
@@ -32,3 +35,5 @@ au BufNewFile *.sh set fileformat=unix
 " user command
 command! Config edit ~\AppData\Local\nvim\init.vim
 command! GConfig edit ~\AppData\Local\nvim\ginit.vim
+
+>>>>>>> Stashed changes
