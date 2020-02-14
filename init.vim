@@ -13,10 +13,26 @@ set listchars=tab:»-,trail:.,eol:↲,extends:»,precedes:«,nbsp:%
 
 set tags=./tags;$HOME
 
+" keybind
+nmap <Esc><Esc> :nohlsearch<CR><Esc>
+
+" autocmd
+au BufNewFile *.sh set fileformat=unix
+
+" user command
+command! Config edit ~\AppData\Local\nvim\init.vim
+command! GConfig edit ~\AppData\Local\nvim\ginit.vim
+
+" terminal config
+tnoremap <silent> <ESC> <C-\><C-n>
+augroup TerminalStuff
+    autocmd TermOpen * setlocal nonumber norelativenumber
+augroup END
+
 " --------- vim-plug ---------------
 call plug#begin('~/.vim/plugged')
 
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'cocopon/iceberg.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -31,34 +47,37 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 
 call plug#end()
-colorscheme iceberg
 
-" --------- vim-plug ---------------
+function s:is_plugged(name)
+    if exists('g:plugs') && has_key(g:plugs, a:name) && isdirectory(g:plugs[a:name].dir)
+        return 1
+    else
+        return 0
+    endif
+endfunction
 
-" keybind
-noremap <C-n> :NERDTreeFocus<CR>
-nmap <Esc><Esc> :nohlsearch<CR><Esc>
+" colorscheme
+if s:is_plugged('iceberg.vim')
+    colorscheme iceberg
+endif
 
-" autocmd
-au BufNewFile *.sh set fileformat=unix
-
-" user command
-command! Config edit ~\AppData\Local\nvim\init.vim
-command! GConfig edit ~\AppData\Local\nvim\ginit.vim
-
-" terminal config
-let &shell = has('win32') ? 'powershell' : 'pwsh'
-set shellquote= shellpipe=\| shellxquote=
-set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
-set shellredir=\|\ Out-File\ -Encoding\ UTF8
-tnoremap <silent> <ESC> <C-\><C-n>
-augroup TerminalStuff
-    autocmd TermOpen * setlocal nonumber norelativenumber
-augroup END
+" NERDTree
+if s:is_plugged('iceberg.vim')
+    noremap <C-n> :NERDTreeFocus<CR>
+endif
 
 " lsp
-let g:lsp_diagnostics_enabled = 1
-" debug
-let g:lsp_log_verbose = 1
-let g:lsp_log_file = expand('~/vim-lsp.log')
-let g:asyncomplete_log_file = expand('~/asyncomplete.log')
+if s:is_plugged('vim-lsp')
+    let g:lsp_diagnostics_enabled = 1
+    " debug
+    let g:lsp_log_verbose = 1
+    let g:lsp_log_file = expand('~/vim-lsp.log')
+    let g:asyncomplete_log_file = expand('~/asyncomplete.log')
+endif
+
+" go
+if s:is_plugged('vim-go.vim')
+    let g:go_fmt_command = "goimports"
+    let g:go_def_mapping_enabled = 0
+    let g:go_doc_keywordprg_enabled = 0
+endif
