@@ -32,7 +32,6 @@ augroup END
 " --------- vim-plug ---------------
 call plug#begin('~/.vim/plugged')
 
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'cocopon/iceberg.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -45,6 +44,7 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
+Plug 'mattn/vim-goimports'
 
 call plug#end()
 
@@ -73,11 +73,7 @@ if s:is_plugged('vim-lsp')
     let g:lsp_log_verbose = 1
     let g:lsp_log_file = expand('~/vim-lsp.log')
     let g:asyncomplete_log_file = expand('~/asyncomplete.log')
+    let g:lsp_async_completion = 1
 endif
 
-" go
-if s:is_plugged('vim-go.vim')
-    let g:go_fmt_command = "goimports"
-    let g:go_def_mapping_enabled = 0
-    let g:go_doc_keywordprg_enabled = 0
-endif
+nmap <C-]> :LspDefinition<CR>
