@@ -7,6 +7,10 @@ set hlsearch
 set expandtab
 set swapfile
 set directory=~/nvim/swap
+set cursorline
+set cursorcolumn
+set nobackup
+set noundofile
 
 set list
 set listchars=tab:»-,trail:.,eol:↲,extends:»,precedes:«,nbsp:%
@@ -29,6 +33,9 @@ augroup TerminalStuff
     autocmd TermOpen * setlocal nonumber norelativenumber
 augroup END
 
+" filetype conf
+autocmd FileType json setlocal shiftwidth=2 ts=2 expandtab
+
 " --------- vim-plug ---------------
 call plug#begin('~/.vim/plugged')
 
@@ -38,13 +45,13 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-dispatch'
-
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'mattn/vim-goimports'
+Plug 'stsewd/isort.nvim'
 
 call plug#end()
 
@@ -77,3 +84,24 @@ if s:is_plugged('vim-lsp')
 endif
 
 nmap <C-]> :LspDefinition<CR>
+
+" autocmd
+au BufNewFile,BufRead *.sh set fileformat=unix
+au BufNewFile,BufRead *.py set fileformat=unix
+
+" user command
+command! Config edit ~\AppData\Local\nvim\init.vim
+command! GConfig edit ~\AppData\Local\nvim\ginit.vim
+
+tnoremap <silent> <ESC> <C-\><C-n>
+augroup TerminalStuff
+    autocmd TermOpen * setlocal nonumber norelativenumber
+augroup END
+
+" lsp
+let g:lsp_diagnostics_enabled = 1
+
+" debug
+let g:lsp_log_verbose = 1
+let g:lsp_log_file = expand('~/vim-lsp.log')
+let g:asyncomplete_log_file = expand('~/asyncomplete.log')
